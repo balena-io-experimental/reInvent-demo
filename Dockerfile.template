@@ -2,7 +2,7 @@
 FROM resin/%%RESIN_MACHINE_NAME%%-node:5.7.1
 
 # install deps on build server, making sure to clean up the artifacts it creates in order to reduce the image size.
-RUN npm install aws-iot-device-sdk
+RUN npm install aws-iot-device-sdk chance
 
 # copy all files to /usr/src/app  dir
 COPY . /usr/src/app

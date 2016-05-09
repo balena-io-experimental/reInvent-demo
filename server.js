@@ -1,4 +1,6 @@
 var awsIot = require('aws-iot-device-sdk');
+var Chance = require('chance');
+    chance = new Chance();
 
 var pattern = /#####/g;
 
@@ -17,7 +19,8 @@ device.on('connect', function() {
 
   // publish data every second
   setInterval(function () {
-    device.publish('topic_1', JSON.stringify({ test_data: 1}));
+    var bool = chance.bool({likelihood: 30});
+    device.publish('topic_1', JSON.stringify({ test_data: bool }));
   }, 3000);
 });
 
