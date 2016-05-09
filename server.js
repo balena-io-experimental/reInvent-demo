@@ -19,7 +19,7 @@ device.on('connect', function() {
 
   // publish data every second
   setInterval(function () {
-    var bool = chance.bool({likelihood: 30});
+    var bool = chance.bool({likelihood: 10});
     device.publish('topic_1', JSON.stringify({ test_data: bool }));
   }, 3000);
 });
