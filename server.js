@@ -5,6 +5,7 @@ var Chance = require('chance'); // used to randomize bool values
 
 var pattern = /#####/g;
 var fs = require('fs');
+var bufferEqual = require('buffer-equal');
 //
 // var device = awsIot.device({
 // privateKey: new Buffer(process.env.AWS_PRIVATE_KEY.replace(pattern, '\n')),
