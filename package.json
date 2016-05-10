@@ -4,6 +4,7 @@
   "description": "resin aws demo",
   "main": "server.js",
   "dependencies": {
+    "aws-iot-device-sdk": "^1.0.12",
     "chance": "^1.0.3",
     "eol": "^0.2.0"
   },
