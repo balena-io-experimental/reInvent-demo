@@ -1,8 +1,6 @@
 #!/bin/bash
-if ["$HALT" = "1"]
-  then
-    echo "HALT don't do anything"
-    echo $HALT
+if [ "$HALT" == "1" ]; then
+  echo "HALT don't do anything"
 else
   if [[ -z "$AWS_CERT" && -z "$AWS_PRIVATE_KEY" && -z "$AWS_ROOT_CA" ]]
   then
