@@ -1,5 +1,4 @@
 var awsIot = require('aws-iot-device-sdk');
-var eol = require('eol'); // used to fix line endings in the CA cert
 var Chance = require('chance'); // used to randomize bool values
     chance = new Chance();
 
