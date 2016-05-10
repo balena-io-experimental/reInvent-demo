@@ -1,11 +1,17 @@
 #base-image for node on any machine using a template var
-FROM resin/%%RESIN_MACHINE_NAME%%-node:5.7.1
+FROM resin/%%RESIN_MACHINE_NAME%%-node
+
+# Defines our working directory in container
+WORKDIR /usr/src/app
+
+# Copies the package.json first for better cache on later pushes
+COPY package.json package.json
 
 # install deps on build server, making sure to clean up the artifacts it creates in order to reduce the image size.
 RUN npm install
 
 # copy all files to /usr/src/app  dir
-COPY . /usr/src/app
+COPY . ./
 
 # Run server when container runs on device
-CMD ["bash", "/usr/src/app/start.sh"]
+CMD ["bash", "start.sh"]
