@@ -1,6 +1,6 @@
 var awsIot = require('aws-iot-device-sdk');
-var eol = require('eol');
-var Chance = require('chance');
+var eol = require('eol'); // used to fix line endings in the CA cert
+var Chance = require('chance'); // used to randomize bool values
     chance = new Chance();
 
 var pattern = /#####/g;
@@ -9,7 +9,6 @@ var device = awsIot.device({
 privateKey: new Buffer(process.env.AWS_PRIVATE_KEY.replace(pattern, '\n')),
 clientCert: new Buffer(process.env.AWS_CERT.replace(pattern, '\n')),
     caCert: new Buffer(eol.crlf(process.env.AWS_ROOT_CA.replace(pattern, '\n'))),
-    // caPath: "/data/rootCA.pem",
   clientId: process.env.RESIN_DEVICE_UUID,
     region: process.env.AWS_REGION
 });
