@@ -1,5 +1,5 @@
 #!/bin/bash
-if ["$HALT" == "1"]
+if ["$HALT" = "1"]
   then
     echo "HALT don't do anything"
     echo $HALT
