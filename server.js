@@ -2,6 +2,30 @@ var awsIot = require('aws-iot-device-sdk');
 var Chance = require('chance'); // used to randomize bool values
     chance = new Chance();
 
+var GrovePi = require('node-grovepi').GrovePi
+var Commands = GrovePi.commands
+var Board = GrovePi.board
+var dhtSensor = new DHTDigitalSensor(3, DHTDigitalSensor.VERSION.DHT22, DHTDigitalSensor.CELSIUS)
+
+var board = new Board({
+    debug: true,
+    onError: function(err) {
+      console.log('Something wrong just happened')
+      console.log(err)
+    },
+    onInit: function(res) {
+      if (res) {
+        console.log('GrovePi Version :: ' + board.version())
+
+        console.log('DHT Digital Sensor (start watch)')
+        dhtSensor.on('change', function(res) {
+          console.log('DHT onChange value=' + res)
+        })
+        dhtSensor.watch(500) // milliseconds
+      }
+    }
+  })
+
 var pattern = /#####/g;
 
 var device = awsIot.device({
@@ -19,8 +43,13 @@ device.on('connect', function() {
 
   // publish data every second
   setInterval(function () {
-    var bool = chance.bool({likelihood: 10});
-    device.publish('topic_1', JSON.stringify({ test_data: bool }));
+    if (process.env.SENSOR) {
+      var reading = chance.floating({min: 0, max: 100});
+    } else {
+      var reading = chance.floating({min: 0, max: 100});
+    }
+
+    device.publish('topic_1', JSON.stringify({ temperature: reading }));
   }, 5000);
 });
 
