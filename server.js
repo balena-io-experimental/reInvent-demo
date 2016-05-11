@@ -6,6 +6,7 @@ var GrovePi = require('node-grovepi').GrovePi
 var Commands = GrovePi.commands
 var Board = GrovePi.board
 var LightAnalogSensor = GrovePi.sensors.LightAnalog
+var lightSensor
 
 var board = new Board({
     debug: true,
@@ -17,7 +18,7 @@ var board = new Board({
       if (res) {
         console.log('GrovePi Version :: ' + board.version())
 
-        var lightSensor = new LightAnalogSensor(2)
+        lightSensor = new LightAnalogSensor(2)
         console.log('Light Analog Sensor (start watch)')
 
       }
