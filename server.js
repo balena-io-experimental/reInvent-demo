@@ -51,7 +51,7 @@ device.on('connect', function() {
     } else {
       var reading = chance.floating({min: 0, max: 200});
     }
-    device.publish('sensor', JSON.stringify({ sensor: reading }));
+    device.publish('sensor', JSON.stringify({ reading: reading }));
   }, 3000);
 });
 
