@@ -19,10 +19,7 @@ var board = new Board({
 
         var lightSensor = new LightAnalogSensor(2)
         console.log('Light Analog Sensor (start watch)')
-        lightSensor.on('change', function(res) {
-          console.log('Light onChange value=' + res)
-        })
-        lightSensor.watch()
+
       }
     }
   })
@@ -39,21 +36,22 @@ clientCert: new Buffer(process.env.AWS_CERT.replace(pattern, '\n')),
     region: process.env.AWS_REGION
 });
 
-// device.on('connect', function() {
-//   console.log('connect');
-//   device.subscribe('topic_1');
-//
-//   // publish data every second
-//   setInterval(function () {
-//     if (process.env.SENSOR) {
-//       var reading = chance.floating({min: 0, max: 100});
-//     } else {
-//       var reading = chance.floating({min: 0, max: 100});
-//     }
-//
-//     device.publish('topic_1', JSON.stringify({ temperature: reading }));
-//   }, 5000);
-// });
+device.on('connect', function() {
+  console.log('connect');
+  device.subscribe('topic_1');
+
+  // publish data every second
+  setInterval(function () {
+    // if (process.env.SENSOR) {
+    //   var reading = chance.floating({min: 0, max: 100});
+    // } else {
+    //   var reading = chance.floating({min: 0, max: 100});
+    // }
+    console.log(lightSensor.read())
+
+    // device.publish('topic_1', JSON.stringify({ temperature: reading }));
+  }, 5000);
+});
 
 device.on('message', function(topic, payload) {
   console.log('message', topic, payload.toString());
