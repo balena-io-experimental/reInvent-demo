@@ -25,7 +25,7 @@ var board = new Board({
   }
 })
 
-if process.env.SENSOR === "1" {
+if (process.env.SENSOR) {
   board.init()
 }
 
@@ -47,9 +47,9 @@ device.on('connect', function() {
   // publish data every second
   setInterval(function () {
     if (process.env.SENSOR) {
-      var reading = chance.floating({min: 0, max: 200});
-    } else {
       var reading = lightSensor.read();
+    } else {
+      var reading = chance.floating({min: 0, max: 200});
     }
     device.publish('temperature', JSON.stringify({ temperature: reading }));
   }, 3000);
