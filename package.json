@@ -6,7 +6,8 @@
   "dependencies": {
     "aws-iot-device-sdk": "^1.0.12",
     "chance": "^1.0.3",
-    "node-grovepi": "*"
+    "node-grovepi": "*",
+		"ds1820-temp": "1.0.0"
   },
   "devDependencies": {},
   "scripts": {
