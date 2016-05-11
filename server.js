@@ -49,7 +49,7 @@ device.on('connect', function() {
     if (process.env.SENSOR) {
       var reading = chance.floating({min: 0, max: 200});
     } else {
-      var reading = clightSensor.read();
+      var reading = lightSensor.read();
     }
     device.publish('temperature', JSON.stringify({ temperature: reading }));
   }, 3000);
