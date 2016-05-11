@@ -42,7 +42,7 @@ clientCert: new Buffer(process.env.AWS_CERT.replace(pattern, '\n')),
 
 device.on('connect', function() {
   console.log('connect');
-  device.subscribe('temperature');
+  device.subscribe('sensor');
 
   // publish data every second
   setInterval(function () {
@@ -51,7 +51,7 @@ device.on('connect', function() {
     } else {
       var reading = chance.floating({min: 0, max: 200});
     }
-    device.publish('temperature', JSON.stringify({ temperature: reading }));
+    device.publish('sensor', JSON.stringify({ sensor: reading }));
   }, 3000);
 });
 
