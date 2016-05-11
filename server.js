@@ -2,33 +2,9 @@ var awsIot = require('aws-iot-device-sdk');
 var Chance = require('chance'); // used to randomize bool values
     chance = new Chance();
 
-var GrovePi = require('node-grovepi').GrovePi
-var Commands = GrovePi.commands
-var Board = GrovePi.board
-var LightAnalogSensor = GrovePi.sensors.LightAnalog
-var lightSensor
-
-var board = new Board({
-  debug: true,
-  onError: function(err) {
-    console.log('Something wrong just happened')
-    console.log(err)
-  },
-  onInit: function(res) {
-    if (res) {
-      console.log('GrovePi Version :: ' + board.version())
-
-      lightSensor = new LightAnalogSensor(2)
-      console.log('Light Analog Sensor (start watch)')
-
-    }
-  }
-})
-
 if (process.env.SENSOR) {
-  board.init()
+	var sensors = require('ds1820-temp');
 }
-
 
 var pattern = /#####/g;
 
@@ -47,7 +23,16 @@ device.on('connect', function() {
   // publish data every second
   setInterval(function () {
     if (process.env.SENSOR) {
-      var reading = lightSensor.read();
+			// promise based
+			sensors.readDevices().then(
+				function (devices) {
+					var reading = devices[0].value
+				},
+				function (err) {
+					var reading = null
+					console.log('An error occurred while reading sensor: ', err);
+				}
+			);
     } else {
       var reading = chance.floating({min: 0, max: 200});
     }
