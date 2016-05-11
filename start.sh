@@ -1,4 +1,5 @@
 #!/bin/bash
+modprobe i2c-dev
 if [ "$HALT" == "1" ]; then
   echo "HALT don't do anything"
 else
