@@ -1,7 +1,6 @@
 var awsIot = require('aws-iot-device-sdk');
 var Chance = require('chance'); // used to randomize bool values
     chance = new Chance();
-var sensors = require('ds1820-temp');
 
 var pattern = /#####/g;
 
@@ -19,24 +18,9 @@ device.on('connect', function() {
 
   // publish data every second
   setInterval(function () {
-		var reading = null
-    if (process.env.SENSOR) {
-			// promise based
-			sensors.readDevices().then(
-				function (devices) {
-					reading = devices[0].value
-					device.publish('sensor', JSON.stringify({ reading: reading }));
-				},
-				function (err) {
-					console.log('An error occurred while reading sensor: ', err);
-				}
-			);
-    } else {
-      reading = chance.floating({min: 0, max: 200});
-			device.publish('sensor', JSON.stringify({ reading: reading }));
-    }
-
-  }, 3000);
+    reading = chance.floating({min: 0, max: 200});
+		device.publish('sensor', JSON.stringify({ reading: reading }));
+  }, process.env.INTERVAL || 3000);
 });
 
 device.on('message', function(topic, payload) {
