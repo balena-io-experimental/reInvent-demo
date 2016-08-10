@@ -7,7 +7,7 @@ var pattern = /#####/g;
 var device = awsIot.device({
 privateKey: new Buffer(process.env.AWS_PRIVATE_KEY.replace(pattern, '\n')),
 clientCert: new Buffer(process.env.AWS_CERT.replace(pattern, '\n')),
-    caCert: new Buffer(process.env.AWS_ROOT_CA.replace(pattern, '\r\n')),
+    caCert: new Buffer(JSON.parse(process.env.AWS_ROOT_CA)),
   clientId: process.env.RESIN_DEVICE_UUID,
     region: process.env.AWS_REGION
 });
