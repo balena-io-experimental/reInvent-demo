@@ -19,7 +19,7 @@ device.on('connect', function() {
   device.subscribe('sensor');
   // publish data
   setInterval(function () {
-    reading = chance.floating({min: 0, max: 200});
+    var reading = chance.floating({min: 0, max: 200});
 		device.publish('sensor', JSON.stringify({ reading: reading }));
   }, process.env.INTERVAL || 3000);
 });
