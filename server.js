@@ -1,7 +1,7 @@
 'use strict'
 var awsIot = require('aws-iot-device-sdk');
 var Chance = require('chance'); // used to randomize bool values
-    chance = new Chance();
+var chance = new Chance();
 
 // used to add linebreaks to cert strings
 var pattern = /#####/g;
