@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <title>Live Data</title>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js"></script>
+    <!--
+    Highcharts plotting example is based on:
+    http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/highcharts/demo/dynamic-click-to-add/
+    -->
+  <script>
+  $(function () {
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    var chart = new Highcharts.Chart({
+        chart: {
+            type: 'scatter',
+            margin: [70, 50, 60, 80],
+            renderTo: 'container'
+        },
+        title: {
+            text: 'Random AWS Data Feed'
+        },
+        subtitle: {
+            text: 'Plotting data in real-time using websockets.'
+        },
+        xAxis: {
+            type: 'datetime',
+            gridLineWidth: 1,
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            maxZoom: 60,
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'Sensor Reading'
+            },
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            maxZoom: 60,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        plotOptions: {
+            series: {
+                lineWidth: 1,
+            }
+        },
+        credits: {
+            enabled: false
+        }
+    });
+
+    var socket = io();
+    socket.on('data', function(data) {
+      console.log(data)
+      var series = _.filter(chart.series, { name : data['deviceName'] });
+      if (series.length === 0) {
+        // if it's the first reading from the device create new series
+        chart.addSeries({
+        		name: data['deviceName'],
+            data: [],
+            pointStart: Date.now()
+        });
+      } else {
+        // add point to device series
+        series[0].addPoint([data.ts, data.reading], true, series[0].data.length > 10);
+      }
+    });
+  });
+  </script>
+  <body>
+    <div id="container" style="min-width: 310px; height: 400px; max-width: 700px; margin: 0 auto"></div>
+  </body>
+</html>

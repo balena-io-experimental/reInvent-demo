@@ -1,26 +1,17 @@
 'use strict'
-var awsIot = require('aws-iot-device-sdk');
-var Chance = require('chance'); // used to randomize vals
-var chance = new Chance();
+var http = require('http');
+var io = require('socket.io');
+var express = require('express');
+var PORT = process.env.PORT || 8080;
 
-var device = awsIot.device({
-privateKey: new Buffer(process.env.AWS_PRIVATE_KEY, 'base64'),
-clientCert: new Buffer(process.env.AWS_CERT, 'base64'),
-    caCert: new Buffer(process.env.AWS_ROOT_CA, 'base64'),
-  clientId: process.env.RESIN_DEVICE_UUID,
-    region: process.env.AWS_REGION
+var app = express();
+var server = http.createServer(app);
+
+app.use(express.static(__dirname + '/static'))
+server.listen(PORT, function() {
+	console.log("server is listening on port", PORT);
 });
 
-device.on('connect', function() {
-  console.log('connect');
-  device.subscribe('sensor');
-  // publish data
-  setInterval(function () {
-    var reading = chance.floating({min: 0, max: 200});
-		device.publish('sensor', JSON.stringify({ reading: reading }));
-  }, process.env.INTERVAL || 3000);
-});
+io = io.listen(server);
 
-device.on('message', function(topic, payload) {
-  console.log('message', topic, payload.toString());
-});
+module.exports = io
