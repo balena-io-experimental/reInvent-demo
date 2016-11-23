@@ -1,6 +1,6 @@
 'use strict'
 var awsIot = require('aws-iot-device-sdk');
-var Chance = require('chance'); // used to randomize bool values
+var Chance = require('chance'); // used to randomize vals
 var chance = new Chance();
 
 var device = awsIot.device({
