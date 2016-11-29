@@ -24,6 +24,7 @@ device.on('connect', function() {
       if (err)
         return err
 
+      // scan local networks for specific ssid or pick first one
       let n = _.find(networks, ['ssid', process.env.SSID]) || networks[0]
 
       data = {
