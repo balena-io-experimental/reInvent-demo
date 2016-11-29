@@ -69,11 +69,11 @@
     var socket = io();
     socket.on('data', function(data) {
       console.log(data)
-      var series = _.filter(chart.series, { name : data['deviceName'] });
+      var series = _.filter(chart.series, { name : data['deviceUUID'] });
       if (series.length === 0) {
         // if it's the first reading from the device create new series
         chart.addSeries({
-        		name: data['deviceName'],
+        		name: data['deviceUUID'],
             data: [],
             pointStart: Date.now()
         });
