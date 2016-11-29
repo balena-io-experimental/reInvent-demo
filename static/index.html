@@ -38,7 +38,7 @@
         },
         yAxis: {
             title: {
-                text: 'Sensor Reading'
+                text: 'Wifi Signal'
             },
             minPadding: 0.2,
             maxPadding: 0.2,
@@ -69,17 +69,17 @@
     var socket = io();
     socket.on('data', function(data) {
       console.log(data)
-      var series = _.filter(chart.series, { name : data['deviceUUID'] });
+      var series = _.filter(chart.series, { name : data['name'] });
       if (series.length === 0) {
         // if it's the first reading from the device create new series
         chart.addSeries({
-        		name: data['deviceUUID'],
+        		name: data['name'] ,
             data: [],
             pointStart: Date.now()
         });
       } else {
         // add point to device series
-        series[0].addPoint([data.ts, data.reading], true, series[0].data.length > 10);
+        series[0].addPoint([data.ts, data.signal], true, series[0].data.length > 10);
       }
     });
   });

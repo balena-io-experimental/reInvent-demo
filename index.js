@@ -3,10 +3,6 @@ const awsIot = require('aws-iot-device-sdk')
 const io = require('./server') // websocket server
 const iwlist = require('wireless-tools/iwlist')
 const _ = require('lodash')
-
-
-
-
 const TOPIC = 'wifi'
 
 const device = awsIot.device({
@@ -28,14 +24,14 @@ device.on('connect', function() {
       if (err)
         return err
 
-      n = _.find(networks, ['ssid', process.env.SSID]) || networks[0]
+      let n = _.find(networks, ['ssid', process.env.SSID]) || networks[0]
 
       data = {
-        deviceName: process.env.RESIN_DEVICE_NAME_AT_INIT ,
-        deviceUUID: process.env.RESIN_DEVICE_UUID,
-        reading: n.signal,
+        name: `${process.env.RESIN_DEVICE_UUID.slice(0, 7)}-${n.ssid}`, // shorten uuid and concat network name
+        signal: n.signal,
         ts: Date.now()
       }
+
       device.publish(TOPIC, JSON.stringify(data))
     })
   }, process.env.INTERVAL || 3000)
