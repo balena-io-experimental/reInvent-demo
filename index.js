@@ -29,7 +29,7 @@ device.on('connect', function() {
       let n = _.find(networks, ['ssid', process.env.SSID]) || networks[0]
 
       data = {
-        name: `${process.env.RESIN_DEVICE_UUID.slice(0, 7)}-${n.ssid}`, // shorten uuid and concat network name
+        name: process.env.RESIN_DEVICE_UUID.slice(0, 7), // shorten uuid and concat network name
         signal: n.signal,
         ts: Date.now()
       }
