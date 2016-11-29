@@ -4,8 +4,11 @@ const io = require('./server') // websocket server
 const iwlist = require('wireless-tools/iwlist')
 const _ = require('lodash')
 const pitft = require("pitft")
+const chrom = require("chroma-js")
 
 const TOPIC = 'wifi'
+
+const scale = chroma.scale(['lightyellow', 'navy']).domain([ 0, -80 ]);
 
 const fb = pitft("/dev/fb1") // Returns a framebuffer in direct mode.  See the clock.js example for double buffering mode
 // Clear the screen buffer
@@ -54,12 +57,10 @@ device.on('message', function(topic, payload) {
 })
 
 const displayWifi = function(network){
+  let rgb = scale(network.signal).hex();
   fb.font("fantasy", 24, true); // Use the "fantasy" font with size 24, and font weight bold, if available
   fb.clear();
-  var r = 1 - (network.quality / 70),
-      g = network.quality / 70,
-      b = 0;
-  fb.color(r, g, b);
+  fb.color(rgb);
   fb.rect(0, 0, xMax, yMax, true); // Draw a filled rectangle
   fb.color(0, 0, 0);
   fb.text(xMax/2, yMax/2-24, network.ssid, true, 0);
