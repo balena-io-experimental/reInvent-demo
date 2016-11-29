@@ -29,12 +29,16 @@
         },
         xAxis: {
           type: 'datetime',
+          tickPixelInterval: 150
         },
         yAxis: {
           title: {
               text: 'Wifi Signal'
           }
         },
+        legend: {
+          itemMarginBottom: 10,
+        }
         tooltip: {
           formatter: function () {
             return '<b>' + this.series.name + '</b><br/>' +
@@ -64,7 +68,7 @@
         });
       } else {
         // add point to device series
-        series[0].addPoint([data.ts, data.signal], true, series[0].length > 10);
+        series[0].addPoint([data.ts, data.signal], true, true);
       }
 
       function isBiggerThan10(element, index, array) {
@@ -74,6 +78,9 @@
   });
   </script>
   <body>
+    <div style="text-align:center; margin-bottom:0;">
+      <img src="https://docs.resin.io/img/logo.svg">
+    </div>
     <div id="container" style="min-width: 310px; height: 80vh; max-width: 100%; margin: 0 auto"></div>
   </body>
 </html>
