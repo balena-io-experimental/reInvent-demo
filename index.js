@@ -1,7 +1,11 @@
 'use strict'
 const awsIot = require('aws-iot-device-sdk')
 const io = require('./server') // websocket server
-const iwconfig = require('wireless-tools/iwconfig')
+const iwlist = require('wireless-tools/iwlist')
+const _ = require('lodash')
+
+
+
 
 const TOPIC = 'wifi'
 
@@ -20,15 +24,16 @@ device.on('connect', function() {
 
   // publish reading on TOPIC
   setInterval(function () {
-    iwconfig.status(process.env.INTERFACE || 'wlan0', function(err, status) {
-      console.log(status)
+    iwlist.scan(process.env.INTERFACE || 'wlan0', function(err, networks) {
       if (err)
         return err
+
+      n = _.find(networks, ['ssid', process.env.SSID]) || networks[0]
 
       data = {
         deviceName: process.env.RESIN_DEVICE_NAME_AT_INIT ,
         deviceUUID: process.env.RESIN_DEVICE_UUID,
-        reading: status.quality,
+        reading: n.signal,
         ts: Date.now()
       }
       device.publish(TOPIC, JSON.stringify(data))
