@@ -3,7 +3,7 @@ const awsIot = require('aws-iot-device-sdk')
 const io = require('./server') // websocket server
 const iwlist = require('wireless-tools/iwlist')
 const _ = require('lodash')
-const = require("pitft")
+const pitft = require("pitft")
 
 const TOPIC = 'wifi'
 
