@@ -4,11 +4,11 @@ const io = require('./server') // websocket server
 const iwlist = require('wireless-tools/iwlist')
 const _ = require('lodash')
 const pitft = require("pitft")
-const chrom = require("chroma-js")
+const chroma = require("chroma-js")
 
 const TOPIC = 'wifi'
 
-const scale = chroma.scale(['lightyellow', 'navy']).domain([ 0, -80 ]);
+const scale = chroma.scale(['green', 'red']).domain([ 0, -80 ]);
 
 const fb = pitft("/dev/fb1") // Returns a framebuffer in direct mode.  See the clock.js example for double buffering mode
 // Clear the screen buffer
