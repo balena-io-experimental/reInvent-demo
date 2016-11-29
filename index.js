@@ -36,12 +36,12 @@ device.on('connect', function() {
 
       device.publish(TOPIC, JSON.stringify(data))
       lcd.display(n)
+      console.log('pushed reading: ', topic, JSON.stringify(data))
     })
   }, process.env.INTERVAL || 3000)
 })
 
 // receive all messages & forward them to all browser clients
 device.on('message', function(topic, payload) {
-  console.log('message: ', topic, payload.toString())
   io.sockets.emit('data', JSON.parse(payload.toString()))
 })
