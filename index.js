@@ -21,6 +21,7 @@ device.on('connect', function() {
   // publish reading on TOPIC
   setInterval(function () {
     iwconfig.status(process.env.INTERFACE || 'wlan0', function(err, status) {
+      console.log(status)
       if (err)
         return err
 

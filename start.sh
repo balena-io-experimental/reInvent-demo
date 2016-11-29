@@ -6,7 +6,7 @@ else
   then
     echo "Creating AWS certificates"
     curl -X POST -H "Cache-Control: no-cache" -H 'Content-Type: application/json' \
-    -v -d '{ "uuid": "'$RESIN_DEVICE_UUID'", "attributes": { "type": "rpi_3" } }' \
+    -d '{ "uuid": "'$RESIN_DEVICE_UUID'", "attributes": { "type": "rpi_3" } }' \
     $LAMBDA
   elif [[ "$AWS_CERT" && "$AWS_PRIVATE_KEY" && "$AWS_ROOT_CA" ]]
     then
