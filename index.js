@@ -36,7 +36,7 @@ device.on('connect', function() {
 
       device.publish(TOPIC, JSON.stringify(data))
       lcd.display(n)
-      console.log('pushed reading: ', topic, JSON.stringify(data))
+      console.log('pushed reading: ', TOPIC, JSON.stringify(data))
     })
   }, process.env.INTERVAL || 3000)
 })
