@@ -64,7 +64,11 @@
         });
       } else {
         // add point to device series
-        series[0].addPoint([data.ts, data.signal], true, series[0].data.length > 10);
+        series[0].addPoint([data.ts, data.signal], true, isBiggerThan10(series));
+      }
+
+      function isBiggerThan10(element, index, array) {
+        return element.data.length > 10;
       }
     });
   });
