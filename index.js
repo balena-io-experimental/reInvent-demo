@@ -57,10 +57,10 @@ device.on('message', function(topic, payload) {
 })
 
 const displayWifi = function(network){
-  let rgb = scale(network.signal).hex();
+  let rgb = scale(network.signal).rgb();
   fb.font("fantasy", 24, true); // Use the "fantasy" font with size 24, and font weight bold, if available
   fb.clear();
-  fb.color(rgb);
+  fb.color(rgb[0], rgb[1], rgb[2]);
   fb.rect(0, 0, xMax, yMax, true); // Draw a filled rectangle
   fb.color(0, 0, 0);
   fb.text(xMax/2, yMax/2-24, network.ssid, true, 0);
