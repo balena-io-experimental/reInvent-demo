@@ -64,7 +64,7 @@
         });
       } else {
         // add point to device series
-        series[0].addPoint([data.ts, data.signal], true, isBiggerThan10(series));
+        series[0].addPoint([data.ts, data.signal], true, series.some(isBiggerThan10));
       }
 
       function isBiggerThan10(element, index, array) {
