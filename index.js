@@ -3,7 +3,15 @@ const awsIot = require('aws-iot-device-sdk')
 const io = require('./server') // websocket server
 const iwlist = require('wireless-tools/iwlist')
 const _ = require('lodash')
+const = require("pitft")
+
 const TOPIC = 'wifi'
+
+const fb = pitft("/dev/fb1") // Returns a framebuffer in direct mode.  See the clock.js example for double buffering mode
+// Clear the screen buffer
+fb.clear();
+var xMax = fb.size().width;
+var yMax = fb.size().height;
 
 const device = awsIot.device({
 privateKey: new Buffer(process.env.AWS_PRIVATE_KEY, 'base64'),
@@ -34,6 +42,7 @@ device.on('connect', function() {
       }
 
       device.publish(TOPIC, JSON.stringify(data))
+      displayWifi(n)
     })
   }, process.env.INTERVAL || 3000)
 })
@@ -43,3 +52,16 @@ device.on('message', function(topic, payload) {
   console.log('message: ', topic, payload.toString())
   io.sockets.emit('data', JSON.parse(payload.toString()))
 })
+
+const displayWifi = function(network){
+  fb.font("fantasy", 24, true); // Use the "fantasy" font with size 24, and font weight bold, if available
+  fb.clear();
+  var r = 1 - (network.quality / 70),
+      g = network.quality / 70,
+      b = 0;
+  fb.color(r, g, b);
+  fb.rect(0, 0, xMax, yMax, true); // Draw a filled rectangle
+  fb.color(0, 0, 0);
+  fb.text(xMax/2, yMax/2-24, network.ssid, true, 0);
+  fb.text(xMax/2, yMax/2, "Q: "+network.quality+"/70", true, 0);
+}

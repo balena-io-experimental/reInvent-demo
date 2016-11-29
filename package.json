@@ -9,7 +9,8 @@
     "express": "^4.13.4",
     "lodash": "4.17.2",
     "socket.io": "^1.4.5",
-    "wireless-tools": "0.18.1"
+    "wireless-tools": "0.18.1",
+    "pitft": "git+https://github.com/imrehg/node-pitft.git#conversion",
   },
   "devDependencies": {},
   "scripts": {
